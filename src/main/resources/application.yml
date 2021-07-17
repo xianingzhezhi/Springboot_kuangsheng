@@ -1,0 +1,11 @@
+
+#�ҪO����?�s??
+spring:
+  mvc:
+    format:
+      date: yyyy-mm-dd
+  thymeleaf:
+    cache: false
+
+server:
+  port: 1234
