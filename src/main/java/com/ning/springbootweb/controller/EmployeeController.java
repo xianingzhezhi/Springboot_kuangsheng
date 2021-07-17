@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,4 +44,26 @@ public class EmployeeController {
         return "redirect:/emps";
     }
 
+    //修改传入id查询对应部门和人员
+    @GetMapping("/semp/{id}")
+    public String seletbyid(@PathVariable("id") Integer id,Model model){
+        Emp emp = dao.selectByID(id);
+        model.addAttribute("emp",emp);
+        Collection<Dept> departments = deptDaodao.selectAll();
+        model.addAttribute("departments",departments);
+        return "emp/update";
+    }
+
+    @PostMapping("/semp/update")
+    public String Update(Emp employee){
+        dao.save(employee);
+        return "redirect:/emps";
+    }
+    //修改传入id查询对应部门和人员
+    @GetMapping("/semp/delete/{id}")
+    public String seletbyid(@PathVariable("id") Integer id){
+
+        final Emp delete = dao.delete(id);
+        return "redirect:/emps";
+    }
 }

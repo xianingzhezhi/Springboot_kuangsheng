@@ -55,34 +55,49 @@
 					<a class="btn btn-sm btn-primary green" th:href="@{/add}">添加</a>
 					<h2>Section title</h2>
 					<div class="table-responsive">
-						<table class="table table-striped table-sm">
-							<thead>
-							<tr>
-								<th>编号</th>
-								<th>姓名</th>
-								<th>邮箱</th>
-								<th>性别</th>
-								<th>所属部门</th>
-								<th>生日</th>
-								<th>操作</th>
-							</tr>
-							</thead>
-							<tbody>
-								<tr th:each="emp:${emp}">
-									<td th:text="${emp.getId()}"></td>
-									<td th:text="${emp.getLastName()}"></td>
-									<td th:text="${emp.getEmail()}"></td>
-									<td th:text="${emp.getGender()==0?'男':'女'}"></td>
-									<td th:text="${emp.getDept()}"></td>
-									<td th:text="${#dates.format(emp.getBirth(),'yyyy-mm-dd')}"></td>
-									<td>
-										<a class="btn btn-sm btn-primary" th:href="@{/semp/}+${emp.getId()}">编辑</a>
-										<a class="btn btn-sm btn-danger" th:href="@{/semp/delete/}+${emp.getId()}">删除</a>
-									</td>
-								</tr>
-
-							</tbody>
-						</table>
+						<form class="form-horizontal" th:action="@{/semp/update}" method="post">
+							<input type="hidden" name="id" th:value="${emp.getId()}">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">姓名</label>
+								<div class="col-sm-10">
+									<input th:value="${emp.getLastName()}" name="lastName" type="text" class="form-control"  placeholder="姓名">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Email</label>
+								<div class="col-sm-10">
+									<input th:value="${emp.getEmail()}" name="email" type="email" class="form-control" placeholder="Email">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">性别</label>
+								<div class="form-check form-check-inline">
+									<input th:checked="${emp.getGender()==1}" name="gander" type="radio" class="form-check-input" value="1">
+									<label class="form-check-label">男</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input th:checked="${emp.getGender()==0}" name="gander" type="radio" class="form-check-input" value="0">
+									<label class="form-check-label">女</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">所属部门</label>
+								<select class="form-control col-sm-10" name="dept.id">
+									<option th:selected="${dept.getId()==emp.getDept().getId()}" th:each="dept:${departments}" th:text="${dept.getDeptname()}" th:value="${dept.getId()}"></option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">生日</label>
+								<div class="col-sm-10">
+									<input th:value="${#dates.format(emp.getBirth(),'yyyy-MM-dd')}" name="birth" type="text" class="form-control" placeholder="1975-01-01">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-2 col-sm-10">
+									<button type="submit" class="btn btn-default">修改</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</main>
 			</div>
